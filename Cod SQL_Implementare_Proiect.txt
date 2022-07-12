@@ -1,0 +1,131 @@
+CREATE TABLE patroni_locatie(nume_complet_boss2 VARCHAR2(35) PRIMARY KEY, psa_bani_incasat NUMBER(5) UNIQUE NOT NULL);
+CREATE TABLE locatii(adresa VARCHAR2(20) PRIMARY KEY, ple_nume_complet_boss2 VARCHAR2(35) UNIQUE NOT NULL REFERENCES patroni_locatie (nume_complet_boss2));
+CREATE TABLE patroni_scoala_de_vara(nume_complet_boss1 VARCHAR2(35) PRIMARY KEY, pre_bani_de_incasat NUMBER(5) NOT NULL, pfr_salariu NUMBER(4) NOT NULL, vlr_prima NUMBER(4) NOT NULL, ple_plata_masa NUMBER(5) NOT NULL);
+CREATE TABLE grupe(nume_gr VARCHAR2(15) PRIMARY KEY, pfr_nume_complet_prof VARCHAR2(35) UNIQUE NOT NULL REFERENCES profesori (nume_complet_prof), vlr_nume_complet_vol VARCHAR2(35) UNIQUE NOT NULL REFERENCES voluntari (nume_complet_vol));
+CREATE TABLE profesori(nume_complet_prof VARCHAR2(35) PRIMARY KEY, salariu NUMBER(4) NOT NULL, meniu CHAR(6) NOT NULL);
+CREATE TABLE voluntari(nume_complet_vol VARCHAR2(35) PRIMARY KEY, prima NUMBER(3) NOT NULL, meniu CHAR(6) NOT NULL);
+CREATE TABLE parinti(nume_complet_par VARCHAR2(35) PRIMARY KEY, abonament NUMBER(4) NOT NULL, psa_bani_de_dat NUMBER(4) NOT NULL);
+CREATE TABLE copii(nume_complet_cop VARCHAR2(35) PRIMARY KEY, nivel_eng VARCHAR2(8) NOT NULL, varsta NUMBER(2) NOT NULL, data_inceput DATE NOT NULL, data_sfarsit DATE NOT NULL, meniu VARCHAR2(5) NOT NULL, pre_nume_complet_par VARCHAR2(35) NOT NULL REFERENCES parinti(nume_complet_par), gpa_nume_gr VARCHAR2(35) NOT NULL);
+
+ALTER TABLE localitati DROP CONSTRAINT SYS_C004827861;
+ALTER TABLE localitati ADD CONSTRAINT fk_indicativ_jdt FOREIGN KEY(indicativ_jdt) REFERENCES judete(indicativ);
+ALTER TABLE locatii ADD CONSTRAINT fk_ple_nume_complet_boss2 FOREIGN KEY (ple_nume_complet_boss2) REFERENCES patroni_locatie(nume_complet_boss2);
+ALTER TABLE copii ADD CONSTRAINT fk_pre_nume_complet_par FOREIGN KEY (pre_nume_complet_par) REFERENCES parinti(nume_complet_par);
+ALTER TABLE copii ADD CONSTRAINT fk_gpa_nume_gr FOREIGN KEY (gpa_nume_gr) REFERENCES grupe (nume_gr);
+ALTER TABLE grupe ADD CONSTRAINT fk_pfr_nume_complet_prof FOREIGN KEY (pfr_nume_complet_prof) REFERENCES profesori (nume_complet_prof);
+ALTER TABLE grupe ADD CONSTRAINT fk_vlr_nume_complet_vol FOREIGN KEY (vlr_nume_complet_vol) REFERENCES voluntari (nume_complet_vol);
+ALTER TABLE grupe ADD CONSTRAINT fk_lce_adresa FOREIGN KEY (lce_adresa) REFERENCES locatii (adresa);
+
+INSERT INTO patroni_locatie VALUES ('Popescu Alexandru', 12600);
+INSERT INTO locatii VALUES ('Eden Garden Suceava', 'Popescu Alexandru');
+INSERT INTO patroni_scoala_de_vara VALUES ('Morosan Nicolae', 39400, 8500, 2800, 12600);
+
+INSERT INTO profesori VALUES ('Ionescu Andreea', 1300, 'inclus');
+INSERT INTO profesori VALUES ('Pascu Adrian', 1300, 'inclus');
+INSERT INTO profesori VALUES ('Filip Otilia', 1300, 'inclus');
+INSERT INTO profesori VALUES ('Marcu Sonia', 1300, 'inclus');
+INSERT INTO profesori VALUES ('Sirghi Diana', 1300, 'inclus');
+INSERT INTO profesori VALUES ('Amariei Vlad', 1300, 'inclus');
+INSERT INTO profesori VALUES ('Iacob Zenovia', 1300, 'inclus');
+
+INSERT INTO voluntari VALUES ('Morosan Stefan', 400, 'inclus');
+INSERT INTO voluntari VALUES ('Morosan Ioana', 400, 'inclus');
+INSERT INTO voluntari VALUES ('Grosu Denisa', 400, 'inclus');
+INSERT INTO voluntari VALUES ('Marcan Ana', 400, 'inclus');
+INSERT INTO voluntari VALUES ('Cocos Bianca', 400, 'inclus');
+INSERT INTO voluntari VALUES ('Turcu Cristina', 400, 'inclus');
+INSERT INTO voluntari VALUES ('Olariu Andrei', 400, 'inclus');
+
+INSERT INTO grupe VALUES ('Lullabies', 'Ionescu Andreea', 'Morosan Stefan');
+INSERT INTO grupe VALUES ('Twinkle Stars', 'Pascu Adrian', 'Morosan Ioana');
+INSERT INTO grupe VALUES ('Bald Eagles', 'Filip Otilia', 'Grosu Denisa');
+INSERT INTO grupe VALUES ('Smart Turtles', 'Marcu Sonia', 'Marcan Ana');
+INSERT INTO grupe VALUES ('Red Baloons', 'Sirghi Diana', 'Cocos Bianca');
+INSERT INTO grupe VALUES ('Wolfies', 'Amariei Vlad', 'Turcu Cristina');
+INSERT INTO grupe VALUES ('The Hot Shots', 'Iacob Zenovia', 'Olariu Andrei');
+
+INSERT INTO parinti VALUES ('Raileanu Paul', 650, 2600);
+INSERT INTO parinti VALUES ('Buzdugan Cosmin', 2000, 2000);
+INSERT INTO parinti VALUES ('Pavel Silviu', 1500, 1500);
+INSERT INTO parinti VALUES ('Vranceanu Maria', 500, 2000);
+INSERT INTO parinti VALUES ('Baltariu Ionela', 1500, 1500);
+INSERT INTO parinti VALUES ('Ciobanu Orest', 2000, 2000);
+INSERT INTO parinti VALUES ('Munteanu Mihai', 1500, 1500);
+INSERT INTO parinti VALUES ('Grigoras Carmen', 1500, 1500);
+INSERT INTO parinti VALUES ('Lungu Stefania', 1500, 3000);
+INSERT INTO parinti VALUES ('Pascovici Dumitru', 500, 1500);
+INSERT INTO parinti VALUES ('Jecan Andrei', 650, 2600);
+INSERT INTO parinti VALUES ('Ilarion Luca', 2000, 2000);
+INSERT INTO parinti VALUES ('Vlad Andrei', 1500, 1500);
+INSERT INTO parinti VALUES ('Blahovici Aurel', 650, 1950);
+INSERT INTO parinti VALUES ('Petrovici Andrei', 500, 2000);
+INSERT INTO parinti VALUES ('Suciu Paula', 2000, 2000);
+INSERT INTO parinti VALUES ('Sima Felix', 1500, 3000);
+INSERT INTO parinti VALUES ('Popa Marcel', 650, 1950);
+INSERT INTO parinti VALUES ('Toma Geanina', 650, 1300);
+
+INSERT INTO copii VALUES ('Raileanu Andreea', 'Movers', 6, TO_DATE('07.05.21','MM/DD/YY'), TO_DATE('07.09.21','MM/DD/YY'), 650, 'Raileanu Paul', 'Twinkle Stars');
+INSERT INTO copii VALUES ('Raileanu Mara', 'Flyers', 7, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 650, 'Raileanu Paul', 'Bald Eagles');
+INSERT INTO copii VALUES ('Buzdugan Ioan', 'PET', 10, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.16.21','MM/DD/YY'), 2000, 'Buzdugan Cosmin', 'Wolfies');
+INSERT INTO copii VALUES ('Pavel Cosmin', 'PET+', 13, TO_DATE('07.26.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 1500, 'Pavel Silviu', 'The Hot Shots');
+INSERT INTO copii VALUES ('Vranceanu Sergiu', 'FCE', 15, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 500*2, 'Vranceanu Maria', 'The Hot Shots');
+INSERT INTO copii VALUES ('Vranceanu Elisei', 'FCE', 14, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 500*2, 'Vranceanu Maria', 'The Hot Shots');
+INSERT INTO copii VALUES ('Baltariu Catalin', 'KET', 9, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.16.21','MM/DD/YY'), 1500, 'Baltariu Ionela', 'Red Baloons');
+INSERT INTO copii VALUES ('Ciobanu Marius', 'YLE', 9, TO_DATE('07.05.21','MM/DD/YY'), TO_DATE('07.09.21','MM/DD/YY'), 2000, 'Ciobanu Orest', 'Smart Turtles');
+INSERT INTO copii VALUES ('Munteanu Filip', 'YLE', 8, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 1500, 'Munteanu Mihai', 'Smart Turtles');
+INSERT INTO copii VALUES ('Grigoras Adrian', 'Flyers', 7, TO_DATE('07.05.21','MM/DD/YY'), TO_DATE('07.09.21','MM/DD/YY'), 1500, 'Grigoras Carmen', 'Bald Eagles');
+INSERT INTO copii VALUES ('Lungu Stefania-Maria', 'Starters', 4, TO_DATE('07.26.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 1500, 'Lungu Stefania', 'Lullabies');
+INSERT INTO copii VALUES ('Lungu Ionela', 'Starters', 5, TO_DATE('07.05.21','MM/DD/YY'), TO_DATE('07.09.21','MM/DD/YY'), 1500, 'Lungu Stefania', 'Lullabies');
+INSERT INTO copii VALUES ('Pascovici Paul', 'Starters', 4, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 500*2, 'Pascovici Dumitru', 'Lullabies');
+INSERT INTO copii VALUES ('Pascovici Maria', 'Movers', 6, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 500, 'Pascovici Dumitru', 'Twinkle Stars');
+INSERT INTO copii VALUES ('Pascovici Laura', 'KET', 9, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 500*2, 'Pascovici Dumitru', 'Red Baloons');
+INSERT INTO copii VALUES ('Jecan Denis', 'KET+', 10, TO_DATE('07.19.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650*2, 'Jecan Andrei', 'Wolfies');
+INSERT INTO copii VALUES ('Jecan Vlad', 'PET', 12, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650*2, 'Jecan Andrei', 'Wolfies');
+INSERT INTO copii VALUES ('Ilarion Alexie', 'PET', 11, TO_DATE('07.09.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 2000, 'Ilarion Luca', 'Wolfies');
+INSERT INTO copii VALUES ('Vlad Antonia', 'PET', 14, TO_DATE('07.30.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 1500, 'Vlad Andrei', 'The Hot Shots');
+INSERT INTO copii VALUES ('Blahovici Luca', 'FCE', 14, TO_DATE('07.09.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650, 'Blahovici Aurel', 'The Hot Shots');
+INSERT INTO copii VALUES ('Blahovici Sonia', 'Flyers', 7, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650*2, 'Blahovici Aurel', 'Bald Eagles');
+INSERT INTO copii VALUES ('Petrovici Vlad', 'YLE', 8, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 500*2, 'Petrovici Andrei', 'Smart Turtles');
+INSERT INTO copii VALUES ('Petrovici Miriam', 'Movers', 6, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 500*2, 'Petrovici Andrei', 'Twinkle Stars');
+INSERT INTO copii VALUES ('Suciu Diana', 'Starters', 4, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.16.21','MM/DD/YY'), 2000, 'Suciu Paula', 'Lullabies');
+INSERT INTO copii VALUES ('Sima Mirela', 'KET', 9, TO_DATE('07.26.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 1500, 'Sima Felix', 'Red Baloons');
+INSERT INTO copii VALUES ('Sima Paula', 'YLE', 8, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.16.21','MM/DD/YY'), 1500, 'Sima Felix', 'Smart Turtles');
+INSERT INTO copii VALUES ('Popa Teodora', 'Movers', 7, TO_DATE('07.26.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650, 'Popa Marcel', 'Twinkle Stars');
+INSERT INTO copii VALUES ('Popa Denisa', 'PET', 10, TO_DATE('07.26.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650*2, 'Popa Marcel', 'Wolfies');
+INSERT INTO copii VALUES ('Popa David', 'FCE', 15, TO_DATE('07.26.21','MM/DD/YY'), TO_DATE('07.30.21','MM/DD/YY'), 650, 'Popa Marcel', 'The Hot Shots');
+INSERT INTO copii VALUES ('Toma Daniel', 'Flyers', 7, TO_DATE('07.12.21','MM/DD/YY'), TO_DATE('07.23.21','MM/DD/YY'), 650*2, 'Toma Geanina', 'Bald Eagles');
+INSERT INTO copii VALUES ('Toma Smaranda', 'KET', 9, TO_DATE('07.05.21','MM/DD/YY'), TO_DATE('07.09.21','MM/DD/YY'), 650, 'Toma Geanina', 'Red Baloons');
+
+UPDATE copii
+SET nivel_eng='Flyers', varsta=7
+WHERE nume_complet_cop = 'Raileanu Andreea';
+UPDATE copii
+SET nivel_eng='YLE', varsta=8
+WHERE nume_complet_cop = 'Raileanu Mara';
+DELETE
+FROM copii
+WHERE nume_complet_cop = 'Popa David';
+
+ALTER TABLE copii
+ADD numar_de_ordine char(2);
+
+ALTER TABLE copii
+ADD feedback char(7);
+
+ALTER TABLE copii
+DROP COLUMN numar_de_ordine;
+ 
+ALTER TABLE copii
+DROP COLUMN feedback;
+
+
+CREATE VIEW view_proiect_sc_vara ("Locatia proiectului", "Proprietarul locatiei", "Cash-flow-ul sau pozitiv") AS
+SELECT l.adresa, p.nume_complet_boss2, p.psa_bani_incasat
+FROM patroni_locatie p, locatii l
+WHERE l.ple_nume_complet_boss2 = p.nume_complet_boss2;
+
+CREATE OR REPLACE VIEW view2 ("Nume Grupa", "Nume profesor", "Nume voluntar", "Meniu", "Salariu profesor", "Prima voluntar")
+AS SELECT g.nume_gr, p.nume_complet_prof, v.nume_complet_vol, p.meniu, p.salariu, v.prima
+FROM grupe g, profesori p, voluntari v
+WHERE g.pfr_nume_complet_prof = p.nume_complet_prof
+AND g.vlr_nume_complet_vol = v.nume_complet_vol;

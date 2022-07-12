@@ -1,0 +1,13 @@
+copii - CPL_RA_08101 - copil, initiale, data nastere, index
+parinti - PRE_XV000000 - seria de la buletin
+profesori - PFR_XV100000 - seria de la buletin
+voluntari - VLR_XV200000 - la fel
+patron sc vara - PSA_XV300000
+patron locatie - PLE_XV400000
+
+
+- tre sa scot foreign key din toate
+- tre sa scot primary key de unde trebuie
+
+ALTER TABLE patroni_locatie
+ADD PRIMARY KEY (cod_ple);
